@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import styled from "styled-components";
 import { FlexColumn, Flex } from "../../components/ui/layout";
-import { TodoPropsType, TodoUpdatePropsType } from "../../typedefs";
+import { TodoPropsType, TodoUpdatePropsType } from "../../types";
 import { enqueueSnackbar, SnackbarProvider } from "notistack";
 import Card from "../../components/ui/Card";
 import Button from "../../components/ui/Button";
@@ -133,6 +133,7 @@ const Index = () => {
   };
 
   useEffect(() => {
+    console.log();
     loadTodos();
   }, []);
 
@@ -149,7 +150,7 @@ const Index = () => {
       >
         <Contents>
           <Header style={{ height: "40px" }}>
-            <Input
+            {/* <Input
               style={{ minHeight: "20px" }}
               inputProps={{ value: newTodo?.todo }}
               onChange={(e) =>
@@ -159,7 +160,7 @@ const Index = () => {
                 if (e.key === "Enter") addNewTodo();
               }}
               data-testid="new-todo-input"
-            />
+            /> */}
             <Button
               style={{
                 height: "auto",

@@ -1,7 +1,7 @@
 import React from "react";
 import AppLayout from "./AppLayout";
 import { AUTH_KEY_NAME } from "../constants";
-import Todo from "../pages/todo";
+import Todo from "../containers/todo";
 
 const AppRouter = ({
   component: Component,
@@ -9,12 +9,11 @@ const AppRouter = ({
 }: {
   component: React.ReactElement;
   authProtected?: boolean | undefined;
-}) => {
+}): React.ReactElement => {
   const accessToken = localStorage.getItem(AUTH_KEY_NAME);
 
   if (authProtected && !accessToken) {
     window.location.href = "/signin";
-    // navigate("/signin");
     return <>Nope!</>;
   } else if (accessToken) {
     return (

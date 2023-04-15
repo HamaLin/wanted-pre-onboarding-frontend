@@ -1,4 +1,4 @@
-export const MAIL_REG = /@/g;
+import { InputDataTestidName, InputDataTestidTypes } from "../types";
 
 export const API_HOST = "https://www.pre-onboarding-selection-task.shop/";
 
@@ -9,4 +9,17 @@ export const NEW_TODO = {
   todo: "",
   isCompleted: false,
   userId: 0,
+};
+
+export const DATA_TEST_ID: Record<InputDataTestidName, InputDataTestidTypes> = {
+  emailInput: "email-input",
+  passwordInput: "password-input",
+  loginButton: "signin-button",
+  signupButton: "signup-button",
+};
+
+export const ROUTER_PATH_LIST = {
+  login: "/signin",
+  signup: "/singup",
+  todo: "/todo",
 };

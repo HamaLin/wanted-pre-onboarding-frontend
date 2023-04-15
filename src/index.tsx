@@ -8,8 +8,6 @@ const root = ReactDOM.createRoot(
   document.getElementById("root") as HTMLElement
 );
 
-const notistackRef = React.createRef();
-
 root.render(
   <React.StrictMode>
     <SnackbarProvider>

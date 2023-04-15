@@ -1,6 +1,17 @@
 import React from "react";
 import styled from "styled-components";
-import { InputPropsType } from "../../typedefs";
+import { InputDataTestidTypes } from "../../types";
+
+export interface InputComponentProps {
+  dataTestid: InputDataTestidTypes;
+  name: string | undefined;
+  value: string | undefined;
+  style?: React.CSSProperties;
+  onChange?: React.ChangeEventHandler<HTMLInputElement>;
+  onBlur?: React.FocusEventHandler<HTMLInputElement>;
+  onKeyDown?: React.KeyboardEventHandler<HTMLInputElement>;
+  type?: React.HTMLInputTypeAttribute | undefined;
+}
 
 const Wraper = styled.input`
   width: 100%;
@@ -21,33 +32,33 @@ const Wraper = styled.input`
   }
 `;
 
-export const Input = ({
-  inputProps,
-  style,
-  onChange,
-  onBlur,
-  onKeyDown,
-}: {
-  inputProps?: InputPropsType;
-  style?: React.CSSProperties;
-  onChange?: React.ChangeEventHandler<HTMLInputElement>;
-  onBlur?: React.FocusEventHandler<HTMLInputElement>;
-  onKeyDown?: React.KeyboardEventHandler<HTMLInputElement>;
-}) => {
-  return (
-    <Wraper
-      data-testid={inputProps?.dataTestid}
-      value={inputProps?.value}
-      name={inputProps?.name}
-      onChange={onChange}
-      style={style}
-      type={inputProps?.inputType}
-      onBlur={onBlur}
-      onKeyDown={onKeyDown}
-    />
-  );
-};
+export const CheckBox = styled.input`
+  appearance: none;
+  width: 1.5rem;
+  height: 1.5rem;
+  min-width: 1.5rem;
+  min-height: 1.5rem;
+  border: 1.5px solid gainsboro;
+  border-radius: 0.35rem;
+  cursor: pointer;
 
-export const CheckBox = () => {
-  return <Wraper type="checkbox" style={{ minHeight: "30px" }} />;
-};
+  &:checked {
+    border: 2px solid #8f589a;
+    background-image: url("data:image/svg+xml,%3csvg viewBox='0 0 16 16' fill='white' xmlns='http://www.w3.org/2000/svg'%3e%3cpath d='M5.707 7.293a1 1 0 0 0-1.414 1.414l2 2a1 1 0 0 0 1.414 0l4-4a1 1 0 0 0-1.414-1.414L7 8.586 5.707 7.293z'/%3e%3c/svg%3e");
+    background-repeat: no-repeat;
+    background-color: #bd96f3;
+  }
+`;
+
+export const Input = (props: InputComponentProps): JSX.Element => (
+  <Wraper
+    data-testid={props.dataTestid}
+    value={props.value}
+    name={props.name}
+    onChange={props?.onChange}
+    style={props?.style}
+    onBlur={props?.onBlur}
+    onKeyDown={props?.onKeyDown}
+    type={props.type}
+  />
+);

@@ -1,45 +1,45 @@
 import React from "react";
 import styled from "styled-components";
 import { FlexColumn } from "./ui/layout";
-import { Input } from "./ui/Input";
+import { Input, InputComponentProps } from "./ui/Input";
 import { ScriptType, TitleTypo } from "./ui/Typographies";
-import { InputPropsErrorType, InputPropsType } from "../typedefs";
+
+interface SignInputComponentType extends InputComponentProps {
+  subject: string;
+  label?: string;
+}
 
 const Wraper = styled(FlexColumn)`
   width: 100%;
 `;
 
-const InputLabel = ({
-  subject,
-  inputProps,
-  style,
-  onChange,
-  onBlur,
-  inputStyle,
-  error,
-}: {
-  subject?: String;
-  inputProps?: InputPropsType;
-  style?: React.CSSProperties;
-  onChange?: React.ChangeEventHandler<HTMLInputElement>;
-  onBlur?: React.FocusEventHandler<HTMLInputElement>;
-  inputStyle?: React.CSSProperties;
-  error?: InputPropsErrorType;
-}) => {
+const InputLabel = (props: SignInputComponentType): React.ReactElement => {
+  const {
+    subject,
+    label,
+    dataTestid,
+    name,
+    value,
+    onChange,
+    onBlur,
+    style,
+    type,
+    onKeyDown,
+  } = props;
   return (
-    <Wraper style={style}>
+    <Wraper>
       {subject && <TitleTypo>{subject}</TitleTypo>}
       <Input
-        inputProps={inputProps}
+        dataTestid={dataTestid}
+        name={name}
+        value={value}
         onChange={onChange}
         onBlur={onBlur}
-        style={inputStyle}
+        style={style}
+        type={type}
+        onKeyDown={onKeyDown}
       />
-      {error?.active && (
-        <ScriptType style={error?.active && { color: "red" }}>
-          {error?.errorMessage}
-        </ScriptType>
-      )}
+      {label && <ScriptType style={{ color: "red" }}>{label}</ScriptType>}
     </Wraper>
   );
 };

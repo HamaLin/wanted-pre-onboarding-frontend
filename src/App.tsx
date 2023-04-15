@@ -1,11 +1,11 @@
 import React from "react";
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
+import { SnackbarProvider } from "notistack";
 
 import AppRouter from "./routers/AppRouter";
 
-import SingIn from "./pages/singIn";
-import SingUp from "./pages/singUp";
-import Todo from "./pages/todo";
+import SignForm from "./containers/signForm";
+import Todo from "./containers/todo";
 
 const App = () => {
   return (
@@ -31,14 +31,19 @@ const App = () => {
             />
           }
         />
-        <Route path="/signin" element={<AppRouter component={<SingIn />} />} />
-        <Route path="/singup" element={<AppRouter component={<SingUp />} />} />
+        {/* <Route path="/signin" element={<AppRouter component={<SingIn />} />} />
+        <Route path="/singup" element={<AppRouter component={<SingUp />} />} /> */}
+        <Route
+          path={"/singup" || "/signin"}
+          element={<AppRouter component={<SignForm />} />}
+        />
         <Route
           path="/todo"
           element={<AppRouter authProtected component={<Todo />} />}
         />
-        <Route path="*" element={<AppRouter component={<SingIn />} />} />
+        <Route path="*" element={<AppRouter component={<SignForm />} />} />
       </Routes>
+      <SnackbarProvider />
     </Router>
   );
 };
