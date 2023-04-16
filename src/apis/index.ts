@@ -4,13 +4,21 @@ import { AUTH_KEY_NAME } from "../constants";
 const API_HOST = "https://www.pre-onboarding-selection-task.shop/";
 const ACCESS_TOKEN = localStorage.getItem(AUTH_KEY_NAME);
 
-type ApiList = "loginSignin" | "loginSignup" | "todoUpdate" | "todoDelete";
+type ApiList =
+  | "loginSignin"
+  | "loginSignup"
+  | "todoUpdate"
+  | "todoDelete"
+  | "todoGet"
+  | "todoAdd";
 
 const API_PATH: Record<ApiList, string> = {
   loginSignin: "auth/signin",
   loginSignup: "auth/signup",
   todoDelete: "todos/",
   todoUpdate: "todos/",
+  todoGet: "todos",
+  todoAdd: "todos",
 };
 
 const AXIOS_CONFIG: Record<ApiList, AxiosRequestConfig<Record<string, any>>> = {
@@ -41,6 +49,21 @@ const AXIOS_CONFIG: Record<ApiList, AxiosRequestConfig<Record<string, any>>> = {
     url: API_HOST + API_PATH.todoDelete,
     headers: {
       Authorization: ACCESS_TOKEN,
+    },
+  },
+  todoGet: {
+    method: "GET",
+    url: API_HOST + API_PATH.todoGet,
+    headers: {
+      Authorization: ACCESS_TOKEN,
+    },
+  },
+  todoAdd: {
+    method: "POST",
+    url: API_HOST + API_PATH.todoAdd,
+    headers: {
+      Authorization: ACCESS_TOKEN,
+      "Content-Type": "application/json",
     },
   },
 };

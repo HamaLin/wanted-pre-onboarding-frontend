@@ -2,7 +2,9 @@ export type InputDataTestidName =
   | "loginButton"
   | "emailInput"
   | "passwordInput"
-  | "signupButton";
+  | "signupButton"
+  | "newTodoInput"
+  | "newTodoAddButton";
 
 export type InputDataTestidTypes =
   | "email-input"
@@ -10,35 +12,14 @@ export type InputDataTestidTypes =
   | "signup-button"
   | "signin-button"
   | "new-todo-input"
-  | "new-todo-add-button";
-
-export type InputComponentDatas = {
-  dataTestid: InputDataTestidTypes;
-  name: string | undefined;
-  value: string | undefined;
-};
-
-export type InputPropsErrorType = {
-  active: Boolean;
-  errorMessage: String;
-};
-
-export type InputLabelType = {
-  subject?: String;
-  inputType?: InputComponentDatas;
-  label?: String;
-};
-
-export type LoginFormPropsType = {
-  mail: { data: InputComponentDatas; error?: InputPropsErrorType };
-  password: { data: InputComponentDatas; error?: InputPropsErrorType };
-};
+  | "new-todo-add-button"
+  | "modify-input";
 
 export type TodoUpdateParameterType = "Check" | "TodoChange" | "Delete";
 
 export type TodoUpdatePropsType = {
   id: number;
-  changeType: TodoUpdateParameterType;
+  updateType: TodoUpdateParameterType;
   value?: string | boolean;
 };
 

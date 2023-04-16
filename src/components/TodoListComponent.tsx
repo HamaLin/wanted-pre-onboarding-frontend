@@ -3,7 +3,7 @@ import { useEffect } from "react";
 import styled from "styled-components";
 import { TodoPropsType, TodoUpdatePropsType } from "../types";
 import { CheckBox, Input } from "./ui/Input";
-import { Flex, FlexAll } from "./ui/layout";
+import { Flex } from "./ui/layout";
 
 const Wraper = styled.li`
   display: flex;
@@ -18,6 +18,8 @@ const Wraper = styled.li`
     cursor: pointer;
     flex-grow: 1;
     overflow: hidden;
+    margin-right: 10px;
+    align-items: center;
     > span {
       margin-left: 5px;
     }
@@ -68,7 +70,7 @@ const TodoListComponent = ({
 
     updateTodoFc({
       id: props.id,
-      changeType: "Check",
+      updateType: "Check",
       value: !localData.isCompleted,
     });
   };
@@ -87,9 +89,11 @@ const TodoListComponent = ({
             if (!editMode) onCheck();
           }}
         />
-        {/* {editMode ? (
+        {editMode ? (
           <Input
-            inputProps={{ value: localData.todo }}
+            value={localData.todo}
+            name=""
+            dataTestid="modify-input"
             onChange={(e) => {
               setLocalData((prev) => ({ ...prev, todo: e.target.value }));
             }}
@@ -106,7 +110,7 @@ const TodoListComponent = ({
           >
             {props.todo}
           </span>
-        )} */}
+        )}
       </label>
       <Flex>
         <TodoButton
@@ -115,7 +119,7 @@ const TodoListComponent = ({
             if (editMode) {
               updateTodoFc({
                 id: localData.id,
-                changeType: "TodoChange",
+                updateType: "TodoChange",
                 value: localData.todo,
               });
               setEditMode(false);
@@ -132,7 +136,7 @@ const TodoListComponent = ({
           btnType="error"
           onClick={() => {
             if (!editMode)
-              updateTodoFc({ id: localData.id, changeType: "Delete" });
+              updateTodoFc({ id: localData.id, updateType: "Delete" });
             if (editMode) setEditMode(false);
           }}
           data-testid={editMode ? "cancel-button" : "delete-button"}
@@ -140,64 +144,6 @@ const TodoListComponent = ({
           {editMode ? "취소" : "삭제"}
         </TodoButton>
       </Flex>
-      {/* <FlexAll>
-      </FlexAll>
-      <Flex
-        style={{ flexGrow: 1, cursor: "pointer", overflow: "hidden" }}
-        onClick={() => {
-          if (!editMode) onCheck();
-        }}
-      >
-        {editMode ? (
-          <Input
-            inputProps={{ value: localData.todo }}
-            onChange={(e) => {
-              setLocalData((prev) => ({ ...prev, todo: e.target.value }));
-            }}
-          />
-        ) : (
-          <pre
-            style={{
-              textOverflow: "ellipsis",
-              whiteSpace: "nowrap",
-              overflow: "hidden",
-              textDecoration: localData.isCompleted ? "line-through" : "none",
-            }}
-          >
-            {props.todo}
-          </pre>
-        )}
-      </Flex>
-      <Flex style={{ minWidth: "40%", alignItems: "center" }}>
-        <TodoButton
-          onClick={() => {
-            if (!editMode) setEditMode((prev) => !prev);
-            if (editMode) {
-              updateTodoFc({
-                id: localData.id,
-                changeType: "TodoChange",
-                value: localData.todo,
-              });
-              setEditMode(false);
-            }
-          }}
-        >
-          {editMode ? "제출" : "수정"}
-        </TodoButton>
-        <TodoButton
-          style={{
-            marginLeft: "5px",
-          }}
-          btnType="error"
-          onClick={() => {
-            if (!editMode)
-              updateTodoFc({ id: localData.id, changeType: "Delete" });
-            if (editMode) setEditMode(false);
-          }}
-        >
-          {editMode ? "취소" : "삭제"}
-        </TodoButton>
-      </Flex> */}
     </Wraper>
   );
 };

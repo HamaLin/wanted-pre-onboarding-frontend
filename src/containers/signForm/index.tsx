@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import styled from "styled-components";
 import { FlexColumn } from "../../components/ui/layout";
-import { InputDataTestidTypes, LoginFormPropsType } from "../../types";
+import { InputDataTestidTypes } from "../../types";
 import { enqueueSnackbar } from "notistack";
 import Card from "../../components/ui/Card";
 import Button from "../../components/ui/Button";

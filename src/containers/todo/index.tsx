@@ -7,8 +7,7 @@ import Card from "../../components/ui/Card";
 import Button from "../../components/ui/Button";
 import { Input } from "../../components/ui/Input";
 import TodoListComponent from "../../components/TodoListComponent";
-import axios from "axios";
-import { API_HOST, AUTH_KEY_NAME, NEW_TODO } from "../../constants";
+import { DATA_TEST_ID } from "../../constants";
 import { snackBarErrorMessage } from "../../services";
 import { axiosApi } from "../../apis";
 
@@ -49,19 +48,22 @@ const Body = styled(FlexColumn)`
   }
 `;
 
+const NEW_TODO = {
+  id: 0,
+  todo: "",
+  isCompleted: false,
+  userId: 0,
+};
+
 const Index = () => {
-  const [todos, setTodos] = useState<TodoPropsType[]>([]);
   const [newTodo, setNewTodo] = useState<TodoPropsType>(NEW_TODO);
+  const [todos, setTodos] = useState<TodoPropsType[]>([]);
 
   const loadTodos = async () => {
     try {
-      const result = await axios.get(API_HOST + "todos", {
-        headers: {
-          Authorization: localStorage.getItem(AUTH_KEY_NAME),
-        },
-      });
+      const result = await axiosApi("todoGet", undefined);
 
-      setTodos(result?.data);
+      if (result?.data) setTodos(result?.data);
     } catch (err) {
       snackBarErrorMessage("할 일을 불러오는데 실패했습니다.", err);
     }
@@ -69,27 +71,18 @@ const Index = () => {
 
   const addNewTodo = async () => {
     try {
-      const result = await axios.post(
-        API_HOST + "todos",
-        {
-          todo: newTodo.todo,
-        },
-        {
-          headers: {
-            Authorization: localStorage.getItem(AUTH_KEY_NAME),
-            "Content-Type": "application/json",
-          },
-        }
-      );
+      const result = await axiosApi("todoAdd", { todo: newTodo.todo });
 
-      setTodos((prev) => [...prev, { ...result.data }]);
-      setNewTodo(NEW_TODO);
+      if (result?.data) {
+        setTodos((prev) => [...prev, { ...result.data }]);
 
-      enqueueSnackbar("성공적으로 등록되었습니다!", {
-        variant: "success",
-        preventDuplicate: true,
-        autoHideDuration: 2000,
-      });
+        setNewTodo(NEW_TODO);
+        enqueueSnackbar("성공적으로 등록되었습니다!", {
+          variant: "success",
+          preventDuplicate: true,
+          autoHideDuration: 2000,
+        });
+      }
     } catch (err) {
       snackBarErrorMessage("할 일을 등록하는데 실패했습니다.", err);
     }
@@ -98,28 +91,30 @@ const Index = () => {
   const onCreateUpdatedTodoObj = (
     changeProps: TodoUpdatePropsType
   ): TodoPropsType | undefined => {
-    const { id, changeType, value } = changeProps;
+    const { id, updateType, value } = changeProps;
     let updateTodo = todos?.find((data) => data.id === id);
     let updateParameter: "isCompleted" | "todo" = "isCompleted";
 
-    if (changeType === "TodoChange") updateParameter = "todo";
+    if (updateType === "TodoChange") updateParameter = "todo";
 
-    //@ts-ignore
-    return { ...updateTodo, [updateParameter]: value };
+    if (updateTodo) return { ...updateTodo, [updateParameter]: value };
+    else return undefined;
   };
 
   const onUpdateTodo = async (props: TodoUpdatePropsType) => {
     try {
-      const { changeType, id } = props;
+      const { updateType, id } = props;
       let message = "성공적으로";
 
-      if (changeType === "Delete") {
+      if (updateType === "Delete") {
         await axiosApi("todoDelete", undefined, id);
         message += " 삭제되었습니다.";
       } else {
         const newTodo = onCreateUpdatedTodoObj(props);
-        await axiosApi("todoUpdate", newTodo, id);
-        message += " 수정되었습니다.";
+        if (newTodo) {
+          await axiosApi("todoUpdate", newTodo, id);
+          message += " 수정되었습니다.";
+        }
       }
 
       await loadTodos();
@@ -133,7 +128,6 @@ const Index = () => {
   };
 
   useEffect(() => {
-    console.log();
     loadTodos();
   }, []);
 
@@ -150,9 +144,11 @@ const Index = () => {
       >
         <Contents>
           <Header style={{ height: "40px" }}>
-            {/* <Input
+            <Input
               style={{ minHeight: "20px" }}
-              inputProps={{ value: newTodo?.todo }}
+              name=""
+              value={newTodo?.todo}
+              dataTestid={DATA_TEST_ID.newTodoInput}
               onChange={(e) =>
                 setNewTodo((prev) => ({ ...prev, todo: e.target.value }))
               }
@@ -160,7 +156,7 @@ const Index = () => {
                 if (e.key === "Enter") addNewTodo();
               }}
               data-testid="new-todo-input"
-            /> */}
+            />
             <Button
               style={{
                 height: "auto",
