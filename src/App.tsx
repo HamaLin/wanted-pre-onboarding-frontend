@@ -12,28 +12,6 @@ const App = () => {
     <Router>
       <Routes>
         <Route
-          path="/"
-          element={
-            <AppRouter
-              component={
-                <div>
-                  <div>
-                    <a href="/signin">로그인</a>
-                  </div>
-                  <div>
-                    <a href="/singup">회원가입</a>
-                  </div>
-                  <div>
-                    <a href="/todo">TODO</a>
-                  </div>
-                </div>
-              }
-            />
-          }
-        />
-        {/* <Route path="/signin" element={<AppRouter component={<SingIn />} />} />
-        <Route path="/singup" element={<AppRouter component={<SingUp />} />} /> */}
-        <Route
           path={"/singup" || "/signin"}
           element={<AppRouter component={<SignForm />} />}
         />

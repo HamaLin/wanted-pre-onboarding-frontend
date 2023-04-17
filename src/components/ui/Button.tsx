@@ -1,5 +1,6 @@
 import React from "react";
 import styled from "styled-components";
+import { InputDataTestidTypes } from "../../types";
 
 const Wraper = styled.button`
   cursor: pointer;
@@ -29,7 +30,9 @@ const Button = ({
   onClick,
   type,
   style,
+  dataTestid,
 }: {
+  dataTestid: InputDataTestidTypes;
   children?: String;
   disabled?: boolean;
   onClick?: React.MouseEventHandler<HTMLButtonElement>;
@@ -37,7 +40,13 @@ const Button = ({
   style?: React.CSSProperties;
 }) => {
   return (
-    <Wraper disabled={disabled} onClick={onClick} type={type} style={style}>
+    <Wraper
+      disabled={disabled}
+      onClick={onClick}
+      type={type}
+      style={style}
+      data-testid={dataTestid}
+    >
       {children}
     </Wraper>
   );

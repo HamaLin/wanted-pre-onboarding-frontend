@@ -1,6 +1,6 @@
 import React from "react";
 import AppLayout from "./AppLayout";
-import { AUTH_KEY_NAME } from "../constants";
+import { AUTH_KEY_NAME, ROUTER_PATH_LIST } from "../constants";
 import Todo from "../containers/todo";
 
 const AppRouter = ({
@@ -13,7 +13,7 @@ const AppRouter = ({
   const accessToken = localStorage.getItem(AUTH_KEY_NAME);
 
   if (authProtected && !accessToken) {
-    window.location.href = "/signin";
+    window.location.href = ROUTER_PATH_LIST.login;
     return <>Nope!</>;
   } else if (accessToken) {
     return (

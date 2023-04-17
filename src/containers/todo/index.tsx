@@ -165,7 +165,7 @@ const Index = () => {
                 minHeight: "0",
               }}
               onClick={() => addNewTodo()}
-              data-testid="new-todo-add-button"
+              dataTestid="new-todo-add-button"
             >
               추가
             </Button>

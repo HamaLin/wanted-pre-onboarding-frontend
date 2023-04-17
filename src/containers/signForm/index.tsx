@@ -174,18 +174,28 @@ const Index = () => {
   const onSubmit = async () => {
     try {
       let result: AxiosResponse<any, any> | undefined = undefined;
+      let successMessage = "";
+      let redirectPath = "";
 
-      if (currentPath === ROUTER_PATH_LIST.login)
+      if (currentPath === ROUTER_PATH_LIST.login) {
         result = await axiosApi("loginSignin", {
           email: value.mail.value,
           password: value.password.value,
         });
 
-      if (currentPath === ROUTER_PATH_LIST.signup)
+        successMessage = "로그인 되셨습니다.";
+        redirectPath = ROUTER_PATH_LIST.todo;
+      }
+
+      if (currentPath === ROUTER_PATH_LIST.signup) {
         result = await axiosApi("loginSignup", {
           email: value.mail.value,
           password: value.password.value,
         });
+
+        successMessage = "회원가입 되셨습니다.";
+        redirectPath = ROUTER_PATH_LIST.login;
+      }
 
       if (result?.data)
         localStorage.setItem(
@@ -193,11 +203,11 @@ const Index = () => {
           `Bearer ${result.data[AUTH_KEY_NAME]}`
         );
 
-      enqueueSnackbar("로그인 되셨습니다!", {
+      enqueueSnackbar(successMessage, {
         variant: "success",
       });
 
-      navigate(ROUTER_PATH_LIST.todo);
+      window.location.href = redirectPath;
     } catch (err) {
       snackBarErrorMessage("로그인에 실패했습니다.", err);
     }
@@ -242,7 +252,7 @@ const Index = () => {
 
           <div>
             <Button
-              data-testid={
+              dataTestid={
                 currentPath === ROUTER_PATH_LIST.login
                   ? DATA_TEST_ID.loginButton
                   : DATA_TEST_ID.signupButton
@@ -250,13 +260,17 @@ const Index = () => {
               disabled={btnDisable}
               onClick={onSubmit}
             >
-              로그인
+              {currentPath === ROUTER_PATH_LIST.login ? "로그인" : "회원가입"}
             </Button>
           </div>
         </Contents>
       </Card>
       <a
-        href="/singup"
+        href={
+          currentPath === ROUTER_PATH_LIST.login
+            ? ROUTER_PATH_LIST.signup
+            : ROUTER_PATH_LIST.login
+        }
         style={{
           marginTop: "20px",
           color: "#4072ff",
@@ -264,7 +278,7 @@ const Index = () => {
           fontWeight: 700,
         }}
       >
-        회원가입
+        {currentPath === ROUTER_PATH_LIST.login ? "회원가입" : "로그인"}
       </a>
     </Wraper>
   );
