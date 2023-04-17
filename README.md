@@ -1,13 +1,24 @@
-wanted-pre-onboarding-frontend
+# wanted-pre-onboarding-frontend
 
-원티드 프리온보딩 프론트엔드 - 선발 과제
+<br />
+참고 URL: https://github.com/walking-sunset/selection-task
+<br />
 
-프로젝트 실행 방법
+## 프로젝트 실행 방법
 
-1. 프로젝트 터미널 Open
-2. npm install을 이용, node modules 설치
+1. 프로젝트 폴더 터미널 Open
+2. npm install, node modules 설치
 3. npm start 실행
 
-데모 영상
+<br />
 
-reference: https://github.com/walking-sunset/selection-task
+#### 데모 영상
+
+<img src="https://user-images.githubusercontent.com/86543050/232417451-d235f4f8-eaca-43b5-be20-19bed7d7087a.mp4" />
+
+<br />
+<br />
+
+## 사용 라이브러리
+
+React, Axios, Notistack, styled-components, react-router-dom
